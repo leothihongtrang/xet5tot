@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nhập thông tin xét sinh viên 5 tốt cấp trường</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background: #f9f9f9;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #45a049;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    #success-message {
+      display: none;
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9em;
+      color: #555;
+    }
+  </style>
+  <script>
+    function toggleInput(fieldId, inputId) {
+      const field = document.getElementById(fieldId);
+      const input = document.getElementById(inputId);
+      input.classList.toggle("hidden", field.value === "");
+    }
+
+    function submitForm(event) {
+      event.preventDefault(); // Ngăn trang chuyển hướng
+
+      const form = document.querySelector("form");
+      const formData = new FormData(form);
+
+      // Gửi dữ liệu qua fetch
+      fetch(form.action, {
+        method: "POST",
+        body: formData,
+        mode: "no-cors" // Cho phép gửi dữ liệu mà không cần phản hồi
+      })
+        .then(() => {
+          // Hiển thị thông báo thành công
+          const successMessage = document.getElementById("success-message");
+          successMessage.style.display = "block";
+
+          // Ẩn iframe sau khi gửi thông tin
+          const iframe = document.getElementById("thank-you-iframe");
+          iframe.style.display = "none";
+
+          // Làm mới form sau 3 giây
+          setTimeout(() => {
+            form.reset();
+            successMessage.style.display = "none";
+          }, 100);
+        })
+        .catch((error) => {
+          alert("Đã xảy ra lỗi, vui lòng thử lại.");
+          console.error(error);
+        });
+    }
+  </script>
+</head>
+
+<body>
+  <div class="form-container">
+    <h2>Nhập thông tin xét sinh viên 5 tốt cấp trường</h2>
+    <form
+      action="https://docs.google.com/forms/d/e/1FAIpQLSe7PJgz4Diic57gwZRZe99G62rP29obQa74gkOF8DM_H1eCLw/formResponse"
+      method="POST" onsubmit="submitForm(event)">
+      <div class="form-group">
+        <label for="fullname">Họ Và Tên</label>
+        <input type="text" id="fullname" name="entry.190868938" placeholder="Nhập họ và tên" required>
+      </div>
+
+      <div class="form-group">
+        <label for="gender">Giới Tính</label>
+        <select id="gender" name="entry.481296316" required>
+          <option value="" disabled selected>Chọn giới tính</option>
+          <option value="Nam">Nam</option>
+          <option value="Nữ">Nữ</option>
+          <option value="Khác">Khác</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="unit">Đơn Vị</label>
+        <input type="text" id="unit" name="entry.1117121699" placeholder="Nhập đơn vị" required>
+      </div>
+
+      <!-- Đạo Đức -->
+      <div class="form-group">
+        <label for="ethics">Đạo Đức</label>
+        <select id="ethics" name="entry.348026722" onchange="toggleInput('ethics', 'ethics-score')" required>
+          <option value="" disabled selected>Chọn Học kỳ</option>
+          <option value="HKI (2023-2024) - HKII (2023-2024)">HKI (2023-2024) - HKII (2023-2024)</option>
+          <option value="HKII (2022-2023) - HKI (2023-2024)">HKII (2022-2023) - HKI (2023-2024)</option>
+        </select>
+        <input type="text" id="ethics-score" name="entry.348026722-2" class="hidden" placeholder="Ví dụ : 99 - 100">
+      </div>
+
+      <!-- Học Tập -->
+      <div class="form-group">
+        <label for="academic">Học Tập</label>
+        <select id="academic" name="entry.2107824216" onchange="toggleInput('academic', 'academic-score')" required>
+          <option value="" disabled selected>Chọn học kỳ</option>
+          <option value="HKI (2023-2024) - HKII (2023-2024)">HKI (2023-2024) - HKII (2023-2024)</option>
+          <option value="HKII (2022-2023) - HKI (2023-2024)">HKII (2022-2023) - HKI (2023-2024)</option>
+        </select>
+        <input type="text" id="academic-score" name="entry.2107824216-2" class="hidden" placeholder="Ví dụ: 2.5 - 3.0">
+      </div>
+
+      <div class="form-group">
+        <label for="fitness">Thể Lực</label>
+        <input type="text" id="fitness" name="entry.1769591505"
+          placeholder="Nếu là chứng nhận thanh niên khỏe Nhập 'cn' nếu không nhập thông tin vào" required>
+      </div>
+
+      <div class="form-group">
+        <label for="volunteer">Tình Nguyện</label>
+        <textarea id="volunteer" name="entry.1728795855" placeholder="Nhập các hoạt động tình nguyện, cách nhau dấu '-'"
+          rows="3" required></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="integration">Hội Nhập</label>
+        <input type="text" id="integration" name="entry.1054486947" placeholder="Nhập thông tin" required>
+      </div>
+
+      <div class="form-group">
+        <label for="achievements">Thành Tích Khác</label>
+        <textarea id="achievements" name="entry.1786168849" placeholder="Nhập các thành tích khác" rows="3"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="note">Ghi Chú</label>
+        <textarea id="note" name="entry.1013948810" placeholder="Nhập ghi chú nếu có" rows="3"></textarea>
+      </div>
+      <button type="submit">Gửi Thông Tin</button>
+    </form>
+
+    <div id="success-message">
+      <p>Thông tin của bạn đã được gửi thành công!</p>
+    </div>
+
+    <!-- Iframe thông báo thành công -->
+    <iframe id="thank-you-iframe" src="https://example.com/thank-you" class="hidden"></iframe>
+  </div>
+</body>
+<footer>
+  © Câu Lạc Bộ SV 5 Tốt - Copyright 2024 - Design Seven-Leo
+</footer>
+
+</html>
